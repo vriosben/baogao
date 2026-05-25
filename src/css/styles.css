@@ -1,0 +1,885 @@
+/* =============================================================
+   STYLES.CSS — Proyecto Ejemplo
+   Estética Mario Bros + soporte tipografía china (Hanzi + Pinyin)
+   ============================================================= */
+
+/* ── Google Fonts: Pixel + Chinese + Pinyin support ─────────── */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+SC:wght@400;700&family=Noto+Serif+SC:wght@400;700&display=swap');
+
+/* ── CSS Variables ───────────────────────────────────────────── */
+:root {
+  /* Mario palette */
+  --color-red:      #e8001c;
+  --color-gold:     #fbd000;
+  --color-blue:     #149be0;
+  --color-dark:     #1a0a00;
+  --color-brown:    #5c3a00;
+  --color-green:    #00a830;
+  --color-cream:    #fff8e7;
+  --color-sky:      #5c94fc;
+  --color-block:    #e6a817;
+
+  /* UI */
+  --btn-radius:     4px;
+  --border-pixel:   4px solid var(--color-dark);
+  --shadow-pixel:   6px 6px 0px var(--color-dark);
+  --shadow-gold:    6px 6px 0px #a07000;
+
+  /* Typography */
+  --font-pixel:    'Press Start 2P', monospace;
+  --font-chinese:  'Noto Serif SC', 'Noto Sans SC', serif; /* supports Hanzi + Pinyin */
+
+  /* Sizes */
+  --timer-size:     3.5rem;
+  --screen-max:     1100px;
+}
+
+/* ── Reset ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--color-dark);
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(92,148,252,0.08) 0%, transparent 50%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 31px,
+      rgba(255,255,255,0.015) 31px,
+      rgba(255,255,255,0.015) 32px
+    );
+  color: var(--color-cream);
+  font-family: var(--font-chinese);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Screen system ───────────────────────────────────────────── */
+.screen {
+  display: none;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Pixel Button base ───────────────────────────────────────── */
+.btn-pixel {
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  letter-spacing: 0.5px;
+  padding: 14px 22px;
+  border: var(--border-pixel);
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-pixel);
+  transition: transform 0.08s, box-shadow 0.08s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.btn-pixel:active {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0px var(--color-dark);
+}
+
+.btn-red    { background: var(--color-red);   color: white; box-shadow: var(--shadow-pixel); }
+.btn-gold   { background: var(--color-gold);  color: var(--color-dark); box-shadow: var(--shadow-gold); }
+.btn-blue   { background: var(--color-blue);  color: white; }
+.btn-green  { background: var(--color-green); color: white; }
+.btn-dark   { background: var(--color-dark);  color: var(--color-gold); border-color: var(--color-gold); box-shadow: 6px 6px 0 var(--color-gold); }
+
+.btn-pixel:hover { filter: brightness(1.12); transform: translate(-1px,-1px); }
+
+/* ── =================================================== ──────
+   HOME SCREEN
+   ════════════════════════════════════════════════════════════ */
+#screen-home {
+  /* Home background: replace with your JPG/PNG by editing the url() below */
+  background-image: url("assets/images/home-bg.png");
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  /* Fallback color if image not found */
+  background-color: #5c94fc;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.home-header {
+  margin-top: 8vh;
+  text-align: center;
+  z-index: 2;
+}
+
+.home-title-box {
+  background: var(--color-dark);
+  border: 4px solid var(--color-gold);
+  box-shadow: 8px 8px 0 var(--color-gold);
+  padding: 28px 48px;
+  display: inline-block;
+  position: relative;
+}
+
+.home-title-box::before,
+.home-title-box::after {
+  content: "★";
+  color: var(--color-gold);
+  font-size: 1.4rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.home-title-box::before { left: 14px; }
+.home-title-box::after  { right: 14px; }
+
+.home-title {
+  font-family: var(--font-pixel);
+  font-size: clamp(1rem, 3vw, 1.6rem);
+  color: var(--color-gold);
+  text-shadow: 3px 3px 0 #8b6000;
+  letter-spacing: 2px;
+  line-height: 1.4;
+  /* Chinese chars render from this font too */
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(1.4rem, 4vw, 2.4rem);
+  font-weight: 700;
+}
+
+.home-pinyin {
+  font-family: var(--font-chinese);
+  font-size: 0.9rem;
+  color: #ffc44d;
+  margin-top: 8px;
+  letter-spacing: 3px;
+  opacity: 0.85;
+}
+
+.home-subtitle {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: #aad4ff;
+  margin-top: 14px;
+  letter-spacing: 2px;
+}
+
+.home-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  z-index: 2;
+}
+
+.home-coins {
+  display: flex;
+  gap: 12px;
+  animation: bounce 1s infinite alternate ease-in-out;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-8px); }
+}
+
+.coin {
+  width: 28px;
+  height: 28px;
+  background: var(--color-gold);
+  border: 3px solid #b8860b;
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 #a07000;
+}
+
+#btn-start {
+  font-size: 0.65rem;
+  padding: 16px 36px;
+  animation: pulse-btn 1.5s infinite alternate;
+  flex-direction: column;
+  gap: 2px;
+}
+
+@keyframes pulse-btn {
+  from { box-shadow: 6px 6px 0 var(--color-dark); }
+  to   { box-shadow: 8px 8px 0 var(--color-dark), 0 0 20px rgba(251,208,0,0.4); }
+}
+
+/* ── =================================================== ──────
+   SHARED LAYOUT HELPERS
+   ════════════════════════════════════════════════════════════ */
+.screen-inner {
+  max-width: var(--screen-max);
+  margin: 0 auto;
+  width: 100%;
+  padding: 24px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top bar with back button and timer */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.topbar-timer {
+  font-family: var(--font-pixel);
+  font-size: 1.1rem;
+  color: var(--color-gold);
+  background: var(--color-dark);
+  border: 3px solid var(--color-gold);
+  padding: 8px 18px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+  min-width: 100px;
+  text-align: center;
+  box-shadow: 3px 3px 0 #a07000;
+  transition: color 0.3s;
+}
+
+.topbar-timer.urgent {
+  color: var(--color-red) !important;
+  border-color: var(--color-red) !important;
+  animation: blink 0.5s infinite alternate;
+}
+
+@keyframes blink {
+  from { opacity: 1; }
+  to   { opacity: 0.5; }
+}
+
+/* ── =================================================== ──────
+   STAGE 1 — Imagen + Texto tipeado
+   ════════════════════════════════════════════════════════════ */
+#screen-stage1 {
+  background: linear-gradient(180deg, #0d0d2a 0%, #1a0a00 100%);
+}
+
+/* Big timer display (shown while typing, before continue btn) */
+.s1-big-timer {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-pixel);
+  font-size: var(--timer-size);
+  color: var(--color-gold);
+  text-shadow: 4px 4px 0 #a07000;
+  background: rgba(0,0,0,0.75);
+  border: 3px solid var(--color-gold);
+  border-radius: 8px;
+  padding: 12px 32px;
+  z-index: 100;
+  display: none;
+  letter-spacing: 4px;
+  box-shadow: var(--shadow-gold);
+  transition: opacity 0.5s;
+}
+
+.s1-big-timer.visible { display: block; }
+
+/* Image + text layout */
+.s1-scene {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.s1-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-height: 55vh;
+  overflow: hidden;
+  border: var(--border-pixel);
+  box-shadow: var(--shadow-pixel);
+  border-radius: 6px;
+}
+
+.s1-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Text overlay — in front of image, at bottom-left */
+.s1-text-overlay {
+  position: relative;  /* below image, as requested */
+  width: 100%;
+  margin-top: 0;
+  z-index: 10;
+}
+
+.s1-text-box {
+  background: rgba(10, 5, 0, 0.88);
+  border-left: 5px solid var(--color-gold);
+  border-bottom: 3px solid var(--color-gold);
+  padding: 18px 22px;
+  font-family: var(--font-chinese);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--color-cream);
+  text-align: left;
+  min-height: 80px;
+  letter-spacing: 0.5px;
+  word-break: break-word;
+  /* Supports Chinese, Pinyin (with diacritics), Latin */
+}
+
+/* Blinking cursor while typing */
+.s1-text-box.typing-active::after {
+  content: "▌";
+  color: var(--color-gold);
+  animation: cursor-blink 0.6s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Action buttons */
+.s1-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 18px 0 8px;
+}
+
+/* ── =================================================== ──────
+   STAGE 2 — Mapa de la ciudad
+   ════════════════════════════════════════════════════════════ */
+#screen-stage2 {
+  background: #0a0a14;
+}
+
+.s2-map-container {
+  position: relative;
+  border: var(--border-pixel);
+  box-shadow: var(--shadow-pixel);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #111;
+  flex: 1;
+  max-height: calc(100vh - 140px);
+}
+
+.map-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: top left;
+}
+
+/* Character sprite */
+#s2-character {
+  position: absolute;
+  width: 32px;
+  height: 40px;
+  object-fit: contain;
+  z-index: 20;
+  pointer-events: none;
+  transition: left 0.06s linear, top 0.06s linear;
+  image-rendering: pixelated;
+}
+
+/* Controls hint */
+.map-hint {
+  font-family: var(--font-pixel);
+  font-size: 0.38rem;
+  color: #aaa;
+  text-align: center;
+  padding: 8px;
+  letter-spacing: 1px;
+}
+
+/* ── =================================================== ──────
+   GOAL SCREEN (between map and trivia)
+   ════════════════════════════════════════════════════════════ */
+#screen-goal {
+  background: radial-gradient(ellipse at center, #003300 0%, #001a00 100%);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.goal-box {
+  background: rgba(0,0,0,0.8);
+  border: 4px solid var(--color-green);
+  box-shadow: 0 0 40px rgba(0,168,48,0.4), 8px 8px 0 #005000;
+  padding: 52px 64px;
+  border-radius: 10px;
+  max-width: 560px;
+}
+
+.goal-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 16px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.goal-title {
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  color: var(--color-gold);
+  text-shadow: 3px 3px 0 #a07000;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.goal-subtitle {
+  font-family: var(--font-chinese);
+  font-size: 1.1rem;
+  color: #9fffb4;
+  margin-bottom: 28px;
+}
+
+.goal-timer-display {
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  color: #aaa;
+  margin-bottom: 28px;
+  letter-spacing: 2px;
+}
+
+.goal-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── =================================================== ──────
+   STAGE 3 — Trivia
+   ════════════════════════════════════════════════════════════ */
+#screen-stage3 {
+  background: linear-gradient(180deg, #0a0014 0%, #140a00 100%);
+}
+
+.s3-scene {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.s3-image-wrapper {
+  width: 100%;
+  max-height: 50vh;
+  overflow: hidden;
+  border: var(--border-pixel);
+  box-shadow: var(--shadow-pixel);
+  border-radius: 6px;
+}
+
+.s3-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.s3-text-box {
+  background: rgba(10, 5, 0, 0.88);
+  border-left: 5px solid var(--color-blue);
+  border-bottom: 3px solid var(--color-blue);
+  padding: 18px 22px;
+  font-family: var(--font-chinese);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--color-cream);
+  text-align: left;
+  min-height: 80px;
+  letter-spacing: 0.5px;
+}
+
+.s3-text-box.typing-active::after {
+  content: "▌";
+  color: var(--color-blue);
+  animation: cursor-blink 0.6s step-end infinite;
+}
+
+.s3-options {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding: 20px 0 8px;
+  flex-wrap: wrap;
+}
+
+.s3-options .btn-pixel {
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+  justify-content: center;
+  font-family: var(--font-chinese);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 16px 20px;
+  letter-spacing: 0;
+}
+
+.s3-options .btn-pixel .btn-key {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  opacity: 0.7;
+}
+
+/* ── =================================================== ──────
+   FINAL SCREEN
+   ════════════════════════════════════════════════════════════ */
+#screen-final {
+  background: linear-gradient(135deg, #001a00 0%, #1a0050 100%);
+}
+
+.final-image-wrapper {
+  width: 100%;
+  max-height: 45vh;
+  overflow: hidden;
+  border: var(--border-pixel);
+  box-shadow: 0 0 40px rgba(251,208,0,0.3), var(--shadow-gold);
+  border-radius: 6px;
+  border-color: var(--color-gold);
+}
+
+.final-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.final-text-box {
+  background: rgba(0,0,0,0.85);
+  border-left: 5px solid var(--color-gold);
+  border-bottom: 3px solid var(--color-gold);
+  padding: 20px 24px;
+  font-family: var(--font-chinese);
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: #fff8e0;
+  text-align: left;
+}
+
+.final-text-box.typing-active::after {
+  content: "▌";
+  color: var(--color-gold);
+  animation: cursor-blink 0.6s step-end infinite;
+}
+
+.final-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 0 8px;
+}
+
+/* ── =================================================== ──────
+   WRONG SCREEN (time up / wrong answer)
+   ════════════════════════════════════════════════════════════ */
+#screen-wrong {
+  background: radial-gradient(ellipse at center, #1a0000 0%, #080000 100%);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.wrong-box {
+  background: rgba(0,0,0,0.85);
+  border: 4px solid var(--color-red);
+  box-shadow: 0 0 60px rgba(232,0,28,0.3), 8px 8px 0 #6a0000;
+  padding: 52px 64px;
+  border-radius: 10px;
+  max-width: 480px;
+  position: relative;
+}
+
+/* Animated X */
+#wrong-x {
+  font-size: 7rem;
+  color: var(--color-red);
+  display: block;
+  line-height: 1;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: scale(3) rotate(20deg);
+  transition: none;
+}
+
+#wrong-x.animate {
+  animation: xAppear 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes xAppear {
+  0%   { opacity: 0; transform: scale(3) rotate(20deg); }
+  60%  { opacity: 1; transform: scale(0.9) rotate(-5deg); }
+  80%  { transform: scale(1.1) rotate(3deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.wrong-title {
+  font-family: var(--font-pixel);
+  font-size: 0.85rem;
+  color: var(--color-red);
+  text-shadow: 3px 3px 0 #6a0000;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+
+.wrong-subtitle {
+  font-family: var(--font-chinese);
+  font-size: 1.1rem;
+  color: #ff9999;
+  margin-bottom: 28px;
+}
+
+/* ── =================================================== ──────
+   RESPONSIVE
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  :root {
+    --timer-size: 2.2rem;
+    --screen-max: 100%;
+  }
+
+  .screen-inner { padding: 14px 16px; }
+
+  .home-title-box { padding: 18px 24px; }
+  .home-title     { font-size: 1.5rem; }
+
+  .s1-actions { flex-wrap: wrap; gap: 10px; }
+
+  .goal-box, .wrong-box { padding: 32px 24px; }
+
+  .s3-options { flex-direction: column; align-items: stretch; }
+  .s3-options .btn-pixel { max-width: 100%; }
+
+  .btn-pixel { font-size: 0.48rem; padding: 12px 16px; }
+}
+
+@media (max-width: 480px) {
+  .home-title-box::before,
+  .home-title-box::after { display: none; }
+
+  .s1-big-timer { font-size: 1.8rem; padding: 10px 20px; }
+}
+
+/* ── Scrollbar custom ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #1a0a00; }
+::-webkit-scrollbar-thumb { background: var(--color-gold); border-radius: 4px; }
+
+/* ── =================================================== ──────
+   BUTTON HANZI / PINYIN INNER LABELS
+   ════════════════════════════════════════════════════════════ */
+.btn-hanzi {
+  font-family: var(--font-chinese);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: block;
+  line-height: 1.2;
+}
+.btn-pinyin {
+  font-family: var(--font-chinese);
+  font-size: 0.52rem;
+  font-weight: 400;
+  opacity: 0.78;
+  display: block;
+  line-height: 1.2;
+}
+.btn-pixel:has(.btn-hanzi) {
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  letter-spacing: 0;
+}
+.s3-options .btn-key {
+  font-family: var(--font-chinese);
+  font-size: 1.1rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+.s3-options .btn-label {
+  font-family: var(--font-chinese);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* ── =================================================== ──────
+   GOAL SCREEN PINYIN LABELS
+   ════════════════════════════════════════════════════════════ */
+.goal-title-pinyin,
+.goal-subtitle-pinyin,
+.goal-timer-pinyin {
+  font-family: var(--font-chinese);
+  font-size: 0.85rem;
+  color: #88ddaa;
+  opacity: 0.8;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+.goal-subtitle {
+  font-family: var(--font-chinese);
+  font-size: 1.1rem;
+  color: #9fffb4;
+  margin-bottom: 2px;
+}
+
+/* ── =================================================== ──────
+   WRONG SCREEN PINYIN LABELS
+   ════════════════════════════════════════════════════════════ */
+.wrong-title-pinyin,
+.wrong-subtitle-pinyin {
+  font-family: var(--font-chinese);
+  font-size: 0.85rem;
+  color: #ff9999;
+  opacity: 0.75;
+  margin-bottom: 6px;
+}
+.wrong-subtitle {
+  font-family: var(--font-chinese);
+  font-size: 1rem;
+  color: #ff9999;
+  margin-bottom: 2px;
+}
+
+/* ── =================================================== ──────
+   HOME — overlay so title box is readable over the photo bg
+   ════════════════════════════════════════════════════════════ */
+#screen-home::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.0) 50%, rgba(0,0,0,0.18) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+#screen-home > * { position: relative; z-index: 2; }
+
+/* ── =================================================== ──────
+   LANDLORD DIALOG OVERLAY — 房東對話
+   ════════════════════════════════════════════════════════════ */
+.dialog-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,0.65);
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 40px;
+  animation: fadeIn 0.3s ease;
+}
+.dialog-overlay.active { display: flex; }
+
+.dialog-box {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  max-width: 720px;
+  width: 95%;
+}
+
+.dialog-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.dialog-avatar-label {
+  font-family: var(--font-chinese);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  text-align: center;
+  background: rgba(0,0,0,0.75);
+  border: 2px solid var(--color-gold);
+  border-radius: 6px;
+  padding: 4px 10px;
+  line-height: 1.4;
+}
+.dialog-avatar-pinyin {
+  font-size: 0.68rem;
+  color: #ffc44d;
+  font-weight: 400;
+}
+
+.dialog-speech {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+.dialog-speech-bubble {
+  background: rgba(10,5,0,0.92);
+  border: 3px solid var(--color-gold);
+  border-radius: 12px 12px 12px 0;
+  padding: 18px 22px;
+  box-shadow: 4px 4px 0 #a07000;
+  width: 100%;
+  position: relative;
+  min-height: 80px;
+}
+.dialog-speech-bubble::before {
+  content: "";
+  position: absolute;
+  left: -14px; bottom: 18px;
+  border: 7px solid transparent;
+  border-right-color: var(--color-gold);
+}
+.dialog-speech-bubble::after {
+  content: "";
+  position: absolute;
+  left: -9px; bottom: 20px;
+  border: 5px solid transparent;
+  border-right-color: rgba(10,5,0,0.92);
+}
+.dialog-text {
+  font-family: var(--font-chinese);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--color-cream);
+  word-break: break-word;
+}
+.dialog-text.typing-active::after {
+  content: "▌";
+  color: var(--color-gold);
+  animation: cursor-blink 0.6s step-end infinite;
+}
+.dialog-btn { align-self: flex-end; }

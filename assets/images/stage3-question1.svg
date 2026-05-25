@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0d0d1a"/>
+  <rect x="30" y="30" width="740" height="390" rx="8" fill="#1a1a3e" stroke="#e6a817" stroke-width="2"/>
+  <text x="400" y="110" font-family="Noto Serif SC,serif" font-size="30" fill="#ffd700" text-anchor="middle">問題 1</text>
+  <text x="400" y="160" font-family="Noto Serif SC,serif" font-size="16" fill="#ccccff" text-anchor="middle">Wèntí 1</text>
+  <text x="400" y="350" font-family="Noto Serif SC,serif" font-size="11" fill="#666" text-anchor="middle">[ 替換此圖片 — 可使用 JPG/PNG ]</text>
+</svg>

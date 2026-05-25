@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>尋藥記 — Xún Yào Jì</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="src/css/styles.css" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════
+       HOME — 主頁
+       ════════════════════════════════ -->
+  <section id="screen-home" class="screen active" aria-label="主頁">
+
+    <header class="home-header">
+      <div class="home-title-box">
+        <h1 class="home-title">尋藥記</h1>
+        <p class="home-pinyin">Xún Yào Jì</p>
+        <p class="home-subtitle">▶ PRESS START ◀</p>
+      </div>
+    </header>
+
+    <div class="home-center">
+      <div class="home-coins" aria-hidden="true">
+        <div class="coin"></div>
+        <div class="coin"></div>
+        <div class="coin"></div>
+      </div>
+      <button id="btn-start" class="btn-pixel btn-gold" aria-label="出發">
+        <span class="btn-hanzi">▶ 出發</span>
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════
+       STAGE 1 — 圖片 + 打字
+       ════════════════════════════════ -->
+  <section id="screen-stage1" class="screen" aria-label="第一關" aria-hidden="true">
+
+    <div id="s1-timer-display" class="s1-big-timer" role="timer" aria-live="polite">00:00</div>
+
+    <div class="screen-inner">
+      <div class="s1-scene">
+
+        <div class="s1-image-wrapper">
+          <img id="s1-image" src="assets/images/stage1-scene.png" alt="第一關場景" draggable="false" />
+        </div>
+
+        <div class="s1-text-overlay">
+          <div id="s1-text" class="s1-text-box" role="log" aria-live="polite"></div>
+        </div>
+
+        <div class="s1-actions">
+          <button id="s1-back" class="btn-pixel btn-dark" style="display:none">
+            <span class="btn-hanzi">← 返回</span>
+            <span class="btn-pinyin">Fǎnhuí</span>
+          </button>
+          <button id="s1-continue" class="btn-pixel btn-green" style="display:none">
+            <span class="btn-hanzi">繼續 →</span>
+            <span class="btn-pinyin">Jìxù</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════
+       STAGE 2 — 城市地圖
+       ════════════════════════════════ -->
+  <section id="screen-stage2" class="screen" aria-label="第二關" aria-hidden="true">
+
+    <div class="screen-inner">
+      <div class="topbar">
+        <button id="s2-back" class="btn-pixel btn-dark">
+          <span class="btn-hanzi">← 返回</span>
+          <span class="btn-pinyin">Fǎnhuí</span>
+        </button>
+        <div id="stage2-timer" class="topbar-timer" role="timer" aria-live="polite">03:00</div>
+      </div>
+
+      <div id="s2-map-container" class="s2-map-container" tabindex="0" aria-label="城市地圖">
+        <img id="s2-map-img" class="map-svg" src="assets/images/city-map.svg" alt="城市地圖" draggable="false" />
+        <img id="s2-character" src="assets/images/character.svg" alt="角色" draggable="false" />
+      </div>
+
+      <p class="map-hint">↑ ↓ ← → · 使用方向鍵移動角色直到終點 ⭐</p>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════
+       GOAL SCREEN — 通關！
+       ════════════════════════════════ -->
+  <section id="screen-goal" class="screen" aria-label="通關" aria-hidden="true">
+
+    <div class="goal-box">
+      <span class="goal-icon" aria-hidden="true">⭐</span>
+      <h2 class="goal-title">通關！</h2>
+      <p class="goal-title-pinyin">Tōng guān！</p>
+      <p class="goal-subtitle">成功抵達！</p>
+      <p class="goal-subtitle-pinyin">Chénggōng dǐdá！</p>
+      <p class="goal-timer-display">
+        剩餘時間：<span id="goal-timer">00:00</span>
+        <br/><span class="goal-timer-pinyin">Shèngyú shíjiān</span>
+      </p>
+      <div class="goal-actions">
+        <button id="goal-back" class="btn-pixel btn-dark">
+          <span class="btn-hanzi">← 返回主選單</span>
+          <span class="btn-pinyin">Fǎnhuí zhǔ xuǎndān</span>
+        </button>
+        <button id="goal-continue" class="btn-pixel btn-gold">
+          <span class="btn-hanzi">繼續 →</span>
+          <span class="btn-pinyin">Jìxù</span>
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════
+       STAGE 3 — 問答 Trivia
+       ════════════════════════════════ -->
+  <section id="screen-stage3" class="screen" aria-label="第三關" aria-hidden="true">
+
+    <div class="screen-inner">
+      <div class="topbar">
+        <button id="s3-back" class="btn-pixel btn-dark">
+          <span class="btn-hanzi">← 返回主選單</span>
+          <span class="btn-pinyin">Fǎnhuí zhǔ xuǎndān</span>
+        </button>
+        <div id="stage3-timer" class="topbar-timer" role="timer" aria-live="polite">03:00</div>
+      </div>
+
+      <div class="s3-scene">
+        <div class="s3-image-wrapper">
+          <img id="s3-image" src="assets/images/stage3-question1.svg" alt="問題圖片" draggable="false" />
+        </div>
+        <div id="s3-text" class="s3-text-box" role="log" aria-live="polite"></div>
+        <div id="s3-options" class="s3-options" style="display:none">
+          <button id="s3-btn-a" class="btn-pixel btn-blue" data-answer="A">
+            <span class="btn-key">甲</span>
+            <span class="btn-label">選項 A</span>
+          </button>
+          <button id="s3-btn-b" class="btn-pixel btn-red" data-answer="B">
+            <span class="btn-key">乙</span>
+            <span class="btn-label">選項 B</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════
+       FINAL — 恭喜！
+       ════════════════════════════════ -->
+  <section id="screen-final" class="screen" aria-label="最終畫面" aria-hidden="true">
+
+    <div class="screen-inner">
+      <div class="final-image-wrapper">
+        <img id="final-image" src="assets/images/congratulations.svg" alt="恭喜" draggable="false" />
+      </div>
+      <div id="final-text" class="final-text-box" role="log" aria-live="polite"></div>
+      <div class="final-actions">
+        <button id="final-back" class="btn-pixel btn-gold">
+          <span class="btn-hanzi">🏠 返回主選單</span>
+          <span class="btn-pinyin">Fǎnhuí zhǔ xuǎndān</span>
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════
+       WRONG — 錯誤
+       ════════════════════════════════ -->
+  <section id="screen-wrong" class="screen" aria-label="錯誤" aria-hidden="true">
+
+    <div class="wrong-box">
+      <span id="wrong-x" aria-hidden="true">✗</span>
+      <h2 class="wrong-title">錯誤！</h2>
+      <p class="wrong-title-pinyin">Cuòwù！</p>
+      <p class="wrong-subtitle">再試一次</p>
+      <p class="wrong-subtitle-pinyin">Zài shì yī cì</p>
+      <button id="wrong-back" class="btn-pixel btn-red">
+        <span class="btn-hanzi">🏠 返回主選單</span>
+        <span class="btn-pinyin">Fǎnhuí zhǔ xuǎndān</span>
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════
+       LANDLORD DIALOG OVERLAY — 房東對話
+       Aparece cuando el personaje llega al 房東
+       ════════════════════════════════ -->
+  <div id="landlord-dialog" class="dialog-overlay" aria-hidden="true">
+    <div class="dialog-box">
+
+      <div class="dialog-avatar">
+        <svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="36" cy="36" r="34" fill="#f5d5a0" stroke="#c09060" stroke-width="2"/>
+          <ellipse cx="36" cy="14" rx="24" ry="11" fill="white"/>
+          <circle cx="26" cy="33" r="4.5" fill="#333"/>
+          <circle cx="46" cy="33" r="4.5" fill="#333"/>
+          <path d="M 20 24 Q 26 20 32 24" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M 40 24 Q 46 20 52 24" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="36" cy="40" rx="5" ry="4" fill="#d0a070"/>
+          <path d="M 21 47 Q 36 40 51 47" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M 21 47 Q 26 55 31 50" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M 51 47 Q 46 55 41 50" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <p class="dialog-avatar-label">房東<br/><span class="dialog-avatar-pinyin">Fángdōng</span></p>
+      </div>
+
+      <div class="dialog-speech">
+        <div class="dialog-speech-bubble">
+          <div id="dialog-text" class="dialog-text"></div>
+        </div>
+        <button id="dialog-continue" class="btn-pixel btn-gold dialog-btn" style="display:none">
+          <span class="btn-hanzi">繼續 →</span>
+          <span class="btn-pinyin">Jìxù</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Scripts -->
+  <script src="src/js/config.js"></script>
+  <script src="src/js/timer.js"></script>
+  <script src="src/js/typewriter.js"></script>
+  <script src="src/js/map.js"></script>
+  <script src="src/js/game.js"></script>
+
+</body>
+</html>

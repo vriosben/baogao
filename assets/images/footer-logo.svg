@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="56" viewBox="0 0 80 56">
+  <!-- Placeholder logo — replace this file with your institution's logo (PNG/SVG) -->
+  <rect width="80" height="56" rx="6" fill="#1a1a3a"/>
+  <text x="40" y="24" font-family="Noto Serif SC,serif" font-size="16" font-weight="700" fill="#ffd700" text-anchor="middle">尋藥</text>
+  <text x="40" y="44" font-family="Noto Serif SC,serif" font-size="10" fill="#aaa" text-anchor="middle">記</text>
+</svg>

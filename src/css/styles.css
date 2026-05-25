@@ -114,12 +114,11 @@ body {
    HOME SCREEN
    ════════════════════════════════════════════════════════════ */
 #screen-home {
-  /* Home background: replace with your JPG/PNG by editing the url() below */
-  background-image: url("assets/images/home-bg.png");
+  background-image: url("../../assets/images/stage1-intro.png");
   background-size: cover;
-  background-position: center bottom;
+  background-position: center center; /* Centrado para que encaje bien la cuadrícula */
   background-repeat: no-repeat;
-  /* Fallback color if image not found */
+  /* Color de respaldo por si la imagen tarda en cargar o no se encuentra */
   background-color: #5c94fc;
   justify-content: flex-start;
   align-items: center;

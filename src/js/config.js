@@ -20,19 +20,27 @@ const GAME_CONFIG = {
   stage1: {
     image:    "assets/images/stage1-scene.png",  // ← .jpg/.png/.svg
     imageAlt: "第一關場景",
-    typingText: `白如玉病了！(Bái Rúyù bìng le！)
+    typingText: 
+    `妹妹放假到花蓮去玩 。 
+    Mèimei fàngjià dào Huālián qù wán. 
 
-她發高燒，需要藥。
-Tā fā gāoshāo，xūyào yào。
+可是，她現在很不舒服，頭痛得非常厲害，也發燒了 。
+Kěshì, tā xiànzài hěn bù shūfú, tóu tòng de fēicháng lìhài, yě fāshāo le. 
 
-你必須穿越城市，找到藥局。
-Nǐ bìxū chuānyuè chéngshì，zhǎodào yàojú。
+因為她生病了，所以她把火車票弄丟了，也沒辦法給房東付房租 。
+Yīnwèi tā shēngbìng le, suǒyǐ tā bǎ huǒchēpiào nòngdiū le, yě méi bànfǎ gěi fángdōng fù fángzū.
 
-首先，去找房東拿地址。
-Shǒuxiān，qù zhǎo fángdōng ná dìzhǐ。
+我是她的哥哥 ，我應該幫助她。
+Wǒ shì tā de gēge, wǒ yīnggāi bāngzhù tā. 
+
+我先在臺北幫她付房間的房租 ，再到藥局去幫她買藥 。
+Wǒ xiān zài Táiběi bāng tā fù fángjiān de fángzū , zài dào yàojú qù bāng tā mǎi yào. 
+
+然後，我要坐火車到花蓮去接她 ，帶她平平安安地回臺北來 。
+Ránhòu, wǒ yào zuò huǒchē dào Huālián qù jiē tā , dài tā píngpíng-ān'ān de huí Táiběi lái.
 
 加油！(Jiā yóu！) 出發吧！`,
-    typingSpeed: 40,
+    typingSpeed: 30,
   },
 
   // ─────────────────────────────────────────────
@@ -101,29 +109,29 @@ Yàojú zài yòu shàngjiǎo！`,
       {
         image:         "assets/images/stage3-question1.svg",
         imageAlt:      "問題一",
-        typingText:    `你 (nǐ) 這個字有幾畫？\nZhège zì yǒu jǐ huà？\n\n這個字的意思是「你」。`,
+        typingText:    `你妹妹哪裡不舒服？她哪裡痛？\nNǐ mèimei nǎlǐ bù shūfú？ Tā nǎlǐ tòng？\n\n¿Qué le duele a tu hermana? / ¿Dónde no se siente bien?`,
         typingSpeed:   45,
-        optionA:       "五畫  wǔ huà",
-        optionB:       "七畫  qī huà",
-        correctAnswer: "B",
+        optionA:       "頭痛  tóu tòng",
+        optionB:       "肚子痛  dùzi tòng",
+        correctAnswer: "A",
       },
       {
         image:         "assets/images/stage3-question2.svg",
         imageAlt:      "問題二",
-        typingText:    `謝謝 (xièxiè) 是什麼意思？\nShì shénme yìsi？`,
+        typingText:    `她還有什麼生病的症狀？\nTā hái yǒu shéme shēngbìng de zhèngzhuàng？\n\n¿Qué otros síntomas de enfermedad tiene?`,
         typingSpeed:   45,
-        optionA:       "請  Qǐng",
-        optionB:       "謝謝  Xièxiè",
+        optionA:       "流鼻水  liú bíshuǐ",
+        optionB:       "發燒  fāshāo",
         correctAnswer: "B",
       },
       {
         image:         "assets/images/stage3-question3.svg",
         imageAlt:      "問題三",
-        typingText:    `「媽 mā」是第幾聲？\n"Mā" shì dì jǐ shēng？\n\n媽 mā — 麻 má — 馬 mǎ — 罵 mà`,
+        typingText:    `我建議她多喝水，每八個鐘頭吃這個藥。為了保護喉嚨，只吃流質食物。對了，你要怎麼去花蓮？\nWǒ jiànyì tā duō hē shuǐ, měi bā ge zhōngtóu chī zhège yào. Wèile bǎohù hóulóng, zhǐ chī liúzhì shíwù. Duìle, nǐ yào zěnme qù Huālián？\n\nLe recomiendo que tome mucha agua y tome esta medicina cada 8 horas. Solo comida líquida para proteger la garganta. Por cierto, ¿cómo vas a viajar a Hualien?`,
         typingSpeed:   45,
-        optionA:       "第一聲（陰平）Dì yī shēng",
-        optionB:       "第四聲（去聲）Dì sì shēng",
-        correctAnswer: "A",
+        optionA:       "坐火車  zuò huǒchē",
+        optionB:       "坐高鐵  zuò gāotiě",
+        correctAnswer: "A", 
       },
       // ← AGREGA MÁS PREGUNTAS AQUÍ (copia el bloque de arriba)
     ],
@@ -135,7 +143,7 @@ Yàojú zài yòu shàngjiǎo！`,
   finalScreen: {
     image:       "assets/images/congratulations.svg",
     imageAlt:    "恭喜",
-    typingText:  `恭喜！(Gōng xǐ！)\n\n你成功找到了藥局！\nNǐ chénggōng zhǎodào le yàojú！\n\n白如玉現在感覺好多了。\nBái Rúyù xiànzài gǎnjué hǎo duō le。\n\n繼續學習中文！(Jìxù xuéxí zhōngwén！)`,
+    typingText:  `恭喜！(Gōngxǐ!)\n\n你已經準備好去接妹妹了！快一點！\nNǐ yǐjīng zhǔnbèi hǎo qù jiē mèimei le! Kuài yìdiǎn!\n\n這樣妹妹才能早點好。\nZhèyàng mèimei cáinéng zǎodiǎn hǎo.`,
     typingSpeed: 50,
   },
 };

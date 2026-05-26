@@ -23,16 +23,18 @@ const MapGame = (() => {
   let _onGoal2      = null;
 
   // SVG viewBox size — must match city-map.svg viewBox
-  const MAP_W = 1000;
-  const MAP_H = 580;
 
+
+  // Dimensiones nativas del video (1280×720)
+  const MAP_W = 1280;
+  const MAP_H = 720;
   let _scaleX = 1;
   let _scaleY = 1;
 
   function _updateScale() {
-    const img = _mapContainer && _mapContainer.querySelector(".map-svg");
-    if (!img) return;
-    const r = img.getBoundingClientRect();
+    const media = _mapContainer && _mapContainer.querySelector(".map-media");
+    if (!media) return;
+    const r = media.getBoundingClientRect();
     if (r.width === 0 || r.height === 0) return;
     _scaleX = r.width  / MAP_W;
     _scaleY = r.height / MAP_H;

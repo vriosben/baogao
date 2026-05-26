@@ -2,6 +2,7 @@
  * GAME CONTROLLER - game.js
  * Flujo: Home → Stage1 → Stage2 (mapa) → Goal → Stage3 (trivia) → Final
  *        En Stage2: Goal1=房東 (diálogo) → Goal2=藥局 (fin mapa)
+ * SIN temporizador en Stage1 ni Stage3
  */
 
 const Game = (() => {
@@ -25,14 +26,13 @@ const Game = (() => {
     if (t) { t.classList.add("active"); t.setAttribute("aria-hidden", "false"); }
   }
 
-  // ── Timer: update every display that shows the countdown ────
-  const TIMER_ELS = ["s1-timer-display", "stage2-timer", "stage3-timer"];
+  // ── Timer tick: solo para stage2 display ────────────────────
   function _onTick(fmt, sec) {
-    TIMER_ELS.forEach(id => {
-      const el = $(id); if (!el) return;
+    const el = $("stage2-timer");
+    if (el) {
       el.textContent = fmt;
       el.classList.toggle("urgent", sec <= 30);
-    });
+    }
   }
 
   // ── HOME ────────────────────────────────────────────────────
@@ -40,11 +40,12 @@ const Game = (() => {
     Timer.stop();
     MapGame.stop();
     _hideDialog();
+    _hideCorrectPopup();
     _state.trivia.index = 0;
     _showOnly("screen-home");
   }
 
-  // ── STAGE 1 ─────────────────────────────────────────────────
+  // ── STAGE 1 — SIN temporizador ──────────────────────────────
   function showStage1() {
     const cfg = GAME_CONFIG.stage1;
     _showOnly("screen-stage1");
@@ -53,28 +54,17 @@ const Game = (() => {
     $("s1-image").alt = cfg.imageAlt;
     $("s1-continue").style.display = "none";
     $("s1-back").style.display     = "none";
-    $("s1-timer-display").classList.add("visible");
 
     const textEl = $("s1-text");
     textEl.textContent = "";
     textEl.classList.remove("typing-done", "typing-active");
 
-    // Init & start timer
-    Timer.init({
-      duration: GAME_CONFIG.timerDuration,
-      onTick:   _onTick,
-      onExpire: showWrong,
-    });
-    Timer.start();
-
-    // Typing
     if (_state.stage1CancelTyping) _state.stage1CancelTyping();
     _state.stage1CancelTyping = Typewriter.type(
       textEl, cfg.typingText, cfg.typingSpeed || 40,
       () => {
         $("s1-continue").style.display = "inline-flex";
         $("s1-back").style.display     = "inline-flex";
-        $("s1-timer-display").classList.remove("visible");
       }
     );
   }
@@ -83,12 +73,9 @@ const Game = (() => {
   function showStage2() {
     const cfg = GAME_CONFIG.stage2;
     _showOnly("screen-stage2");
-    $("stage2-timer").textContent = Timer.getFormatted();
 
-    // Reset & load map image
-    const mapImg = $("s2-map-img");
-    mapImg.src = ""; void mapImg.offsetWidth;
-    mapImg.src = cfg.mapImage;
+    const mapVideo = $("s2-map-video");
+    mapVideo.src = cfg.mapImage;
 
     const char = $("s2-character");
     char.src = cfg.characterImage;
@@ -97,15 +84,14 @@ const Game = (() => {
       config:       cfg,
       mapContainer: $("s2-map-container"),
       character:    char,
-      onGoal1:      _onReachLandlord,   // primera parada: 房東
-      onGoal2:      _onReachPharmacy,   // segunda parada: 藥局
+      onGoal1:      _onReachLandlord,
+      onGoal2:      _onReachPharmacy,
     });
 
-    // Wait for map image to load before starting (avoids scale=0 glitch)
-    if (mapImg.complete) {
+    if (mapVideo.readyState >= 3) {
       MapGame.start();
     } else {
-      mapImg.onload = () => MapGame.start();
+      mapVideo.onloadeddata = () => MapGame.start();
     }
   }
 
@@ -140,11 +126,31 @@ const Game = (() => {
   // ── PHARMACY REACHED — go to goal screen ────────────────────
   function _onReachPharmacy() {
     MapGame.stop();
+    Timer.stop();
     _showOnly("screen-goal");
     $("goal-timer").textContent = Timer.getFormatted();
   }
 
-  // ── STAGE 3 — trivia ────────────────────────────────────────
+  // ── CORRECT POPUP ────────────────────────────────────────────
+  function _showCorrectPopup(onDone) {
+    const popup = $("correct-popup");
+    popup.classList.add("active");
+    popup.setAttribute("aria-hidden", "false");
+    setTimeout(() => {
+      popup.classList.remove("active");
+      popup.setAttribute("aria-hidden", "true");
+      onDone();
+    }, 1600);
+  }
+
+  function _hideCorrectPopup() {
+    const popup = $("correct-popup");
+    if (!popup) return;
+    popup.classList.remove("active");
+    popup.setAttribute("aria-hidden", "true");
+  }
+
+  // ── STAGE 3 — trivia SIN temporizador ───────────────────────
   function showStage3(index) {
     const questions = GAME_CONFIG.stage3.questions;
     if (index >= questions.length) { showFinal(); return; }
@@ -155,9 +161,7 @@ const Game = (() => {
     if (_state.trivia.cancelTyping) { _state.trivia.cancelTyping(); _state.trivia.cancelTyping = null; }
 
     _showOnly("screen-stage3");
-    $("stage3-timer").textContent = Timer.getFormatted();
 
-    // Force image reload
     const img = $("s3-image");
     img.src = ""; void img.offsetWidth;
     img.src = q.image; img.alt = q.imageAlt;
@@ -182,8 +186,17 @@ const Game = (() => {
 
   function _handleAnswer(chosen) {
     const q = GAME_CONFIG.stage3.questions[_state.trivia.index];
-    if (chosen === q.correctAnswer) showStage3(_state.trivia.index + 1);
-    else showWrong();
+    if (chosen === q.correctAnswer) {
+      $("s3-btn-a").disabled = true;
+      $("s3-btn-b").disabled = true;
+      _showCorrectPopup(() => {
+        $("s3-btn-a").disabled = false;
+        $("s3-btn-b").disabled = false;
+        showStage3(_state.trivia.index + 1);
+      });
+    } else {
+      showWrong();
+    }
   }
 
   // ── FINAL ───────────────────────────────────────────────────
@@ -225,7 +238,6 @@ const Game = (() => {
 
     $("s2-back").addEventListener("click", () => { MapGame.stop(); showHome(); });
 
-    // Dialog: dismiss → resume map for goal 2
     $("dialog-continue").addEventListener("click", () => {
       _hideDialog();
       MapGame.resumeAfterGoal1();

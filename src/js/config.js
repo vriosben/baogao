@@ -12,13 +12,12 @@ const GAME_CONFIG = {
   // ─────────────────────────────────────────────
   title:         "尋藥記",
   titlePinyin:   "Xún Yào Jì",
-  timerDuration: 180,           // segundos totales (180 = 3 min)
 
   // ─────────────────────────────────────────────
   //  第一關 STAGE 1 — Imagen + texto tipeado
   // ─────────────────────────────────────────────
   stage1: {
-    image:    "assets/images/stage1-scene.png",  // ← .jpg/.png/.svg
+    image:    "/Users/valm4/Documents/baogao/assets/images/stage1-room.png",  
     imageAlt: "第一關場景",
     typingText: 
     `妹妹放假到花蓮去玩 。 
@@ -40,29 +39,27 @@ Wǒ xiān zài Táiběi bāng tā fù fángjiān de fángzū , zài dào yàojú
 Ránhòu, wǒ yào zuò huǒchē dào Huālián qù jiē tā , dài tā píngpíng-ān'ān de huí Táiběi lái.
 
 加油！(Jiā yóu！) 出發吧！`,
-    typingSpeed: 30,
+    typingSpeed: 10,
   },
 
   // ─────────────────────────────────────────────
   //  第二關 STAGE 2 — Mapa / dos objetivos
   // ─────────────────────────────────────────────
   stage2: {
-    mapImage:       "assets/images/city-map.svg",
+    mapImage:       "assets/videos/mapa-animado.mp4", 
     characterImage: "assets/images/character.svg",
 
-    // Posición inicial (coordenadas SVG del mapa 1000×580)
-    characterStartX: 40,
-    characterStartY: 462,
-    characterSpeed:  5,
+    // Posición inicial — círculo START (video 1280×720)
+    characterStartX: 422,
+    characterStartY: 626,
+    characterSpeed:  6,
 
-    // ── OBJETIVO 1: llegar al 房東 ──────────────
-    // Coordenadas del bloque 房東 en el SVG (group translate + tamaño)
-    goal1Zone: { x: 390, y: 225, width: 390, height: 185 },  // bloque 房東 centro
+    // ── OBJETIVO 1: casa naranja del 房東 ────────
+    goal1Zone: { x: 675, y: 310, width: 120, height: 130 },
 
     // ── Diálogo del 房東 (edita libremente) ─────
     landlordDialog: {
-      // Texto principal — puede ser tan largo como quieras
-      text: `熱水壞了！
+      text: `熱水器壞了！
 Rèshuǐ huài le！
 
 明天我會來修。
@@ -70,13 +67,12 @@ Míngtiān wǒ huì lái xiū。
 
 藥局在右上角！
 Yàojú zài yòu shàngjiǎo！`,
-      // Botón de continuar
       continueLabel:  "繼續",
       continuePinyin: "Jìxù",
     },
 
-    // ── OBJETIVO 2: llegar a la 藥局 ────────────
-    goal2Zone: { x: 800, y: 10, width: 190, height: 185 },  // bloque 藥局 top-right
+    // ── OBJETIVO 2: 藥局 esquina superior derecha
+    goal2Zone: { x: 838, y: 25, width: 250, height: 170 },
   },
 
   // ─────────────────────────────────────────────
@@ -107,7 +103,7 @@ Yàojú zài yòu shàngjiǎo！`,
   stage3: {
     questions: [
       {
-        image:         "assets/images/stage3-question1.svg",
+        image:         "assets/images/stage3-question1.png",
         imageAlt:      "問題一",
         typingText:    `你妹妹哪裡不舒服？她哪裡痛？\nNǐ mèimei nǎlǐ bù shūfú？ Tā nǎlǐ tòng？\n`,
         typingSpeed:   45,
@@ -116,7 +112,7 @@ Yàojú zài yòu shàngjiǎo！`,
         correctAnswer: "A",
       },
       {
-        image:         "assets/images/stage3-question2.svg",
+        image:         "assets/images/stage3-question2.png",
         imageAlt:      "問題二",
         typingText:    `她還有什麼生病的症狀？\nTā hái yǒu shéme shēngbìng de zhèngzhuàng？\n`,
         typingSpeed:   45,
@@ -125,9 +121,9 @@ Yàojú zài yòu shàngjiǎo！`,
         correctAnswer: "B",
       },
       {
-        image:         "assets/images/stage3-question3.svg",
+        image:         "assets/images/stage3-question3.png",
         imageAlt:      "問題三",
-        typingText:    `我建議她多喝水，每八個鐘頭吃這個藥。為了保護喉嚨，只吃流質食物。對了，你要怎麼去花蓮？\nWǒ jiànyì tā duō hē shuǐ, měi bā ge zhōngtóu chī zhège yào. Wèile bǎohù hóulóng, zhǐ chī liúzhì shíwù. Duìle, nǐ yào zěnme qù Huālián？\n`,
+        typingText:    `我建議她多喝水，每八個鐘頭吃這個藥。為了保護喉嚨，只能吃流質食物。對了，你要怎麼去花蓮？\nWǒ jiànyì tā duō hē shuǐ, měi bā ge zhōngtóu chī zhège yào. Wèile bǎohù hóulóng, zhǐ chī liúzhì shíwù. Duìle, nǐ yào zěnme qù Huālián？\n`,
         typingSpeed:   45,
         optionA:       "坐火車  zuò huǒchē",
         optionB:       "坐高鐵  zuò gāotiě",
@@ -141,7 +137,7 @@ Yàojú zài yòu shàngjiǎo！`,
   //  最終畫面 FINAL SCREEN
   // ─────────────────────────────────────────────
   finalScreen: {
-    image:       "assets/images/congratulations.svg",
+    image:       "assets/images/congratulations.png",
     imageAlt:    "恭喜",
     typingText:  `恭喜！(Gōngxǐ!)\n\n你已經準備好去接妹妹了！快一點！\nNǐ yǐjīng zhǔnbèi hǎo qù jiē mèimei le! Kuài yìdiǎn!\n\n這樣妹妹才能早點好。\nZhèyàng mèimei cáinéng zǎodiǎn hǎo.`,
     typingSpeed: 50,

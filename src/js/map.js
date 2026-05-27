@@ -22,9 +22,6 @@ const MapGame = (() => {
   let _onGoal1      = null;
   let _onGoal2      = null;
 
-  // SVG viewBox size — must match city-map.svg viewBox
-
-
   // Dimensiones nativas del video (1280×720)
   const MAP_W = 1280;
   const MAP_H = 720;
@@ -72,23 +69,25 @@ const MapGame = (() => {
     if (moved) {
       _updateScale();
       _renderCharacter();
+    }
 
-      // Goal 1: reach landlord (only if not visited yet)
-      if (!_goal1Done && _inZone(_config.goal1Zone)) {
-        _active = false;
-        cancelAnimationFrame(_animFrame);
-        setTimeout(() => _onGoal1(), 200);
-        return;
-      }
+    // ── FIX: Zone checks corren en cada frame, sin importar si hubo movimiento ──
 
-      // Goal 2: reach pharmacy (only after goal 1 was visited)
-      if (_goal1Done && !_goal2Done && _inZone(_config.goal2Zone)) {
-        _goal2Done = true;
-        _active = false;
-        cancelAnimationFrame(_animFrame);
-        setTimeout(() => _onGoal2(), 200);
-        return;
-      }
+    // Goal 1: reach landlord (only if not visited yet)
+    if (!_goal1Done && _inZone(_config.goal1Zone)) {
+      _active = false;
+      cancelAnimationFrame(_animFrame);
+      setTimeout(() => _onGoal1(), 200);
+      return;
+    }
+
+    // Goal 2: reach pharmacy (only after goal 1 was visited)
+    if (_goal1Done && !_goal2Done && _inZone(_config.goal2Zone)) {
+      _goal2Done = true;
+      _active = false;
+      cancelAnimationFrame(_animFrame);
+      setTimeout(() => _onGoal2(), 200);
+      return;
     }
 
     _animFrame = requestAnimationFrame(_gameLoop);

@@ -2,7 +2,6 @@
  * GAME CONTROLLER - game.js
  * Flujo: Home → Stage1 → Stage2 (mapa) → Goal → Stage3 (trivia) → Final
  *        En Stage2: Goal1=房東 (diálogo) → Goal2=藥局 (fin mapa)
- * SIN temporizador en Stage1 ni Stage3
  */
 
 const Game = (() => {
@@ -16,7 +15,6 @@ const Game = (() => {
 
   const $ = id => document.getElementById(id);
 
-
   // ── Screen switcher ─────────────────────────────────────────
   function _showOnly(id) {
     document.querySelectorAll(".screen").forEach(s => {
@@ -27,27 +25,16 @@ const Game = (() => {
     if (t) { t.classList.add("active"); t.setAttribute("aria-hidden", "false"); }
   }
 
-  // ── Timer tick: solo para stage2 display ────────────────────
-  function _onTick(fmt, sec) {
-    const el = $("stage2-timer");
-    if (el) {
-      el.textContent = fmt;
-      el.classList.toggle("urgent", sec <= 30);
-    }
-  }
-
   // ── HOME ────────────────────────────────────────────────────
   function showHome() {
-    Timer.stop();
     MapGame.stop();
     _hideDialog();
     _hideCorrectPopup();
     _state.trivia.index = 0;
     _showOnly("screen-home");
-
   }
 
-  // ── STAGE 1 — SIN temporizador ──────────────────────────────
+  // ── STAGE 1 ──────────────────────────────────────────────────
   function showStage1() {
     const cfg = GAME_CONFIG.stage1;
     _showOnly("screen-stage1");
@@ -95,7 +82,6 @@ const Game = (() => {
     } else {
       mapVideo.onloadeddata = () => MapGame.start();
     }
-    Music.play("map");
   }
 
   // ── LANDLORD REACHED — show dialog ──────────────────────────
@@ -126,14 +112,13 @@ const Game = (() => {
     if (_state.dialogCancelTyping) { _state.dialogCancelTyping(); _state.dialogCancelTyping = null; }
   }
 
-  // ── PHARMACY REACHED — go to goal screen ────────────────────
+  // ── PHARMACY REACHED ────────────────────────────────────────
   function _onReachPharmacy() {
     MapGame.stop();
-    Timer.stop();
     _showOnly("screen-goal");
   }
 
-  // ── CORRECT POPUP ────────────────────────────────────────────
+  // ── CORRECT POPUP ───────────────────────────────────────────
   function _showCorrectPopup(onDone) {
     const popup = $("correct-popup");
     popup.classList.add("active");
@@ -152,7 +137,7 @@ const Game = (() => {
     popup.setAttribute("aria-hidden", "true");
   }
 
-  // ── STAGE 3 — trivia SIN temporizador ───────────────────────
+  // ── STAGE 3 — trivia ────────────────────────────────────────
   function showStage3(index) {
     const questions = GAME_CONFIG.stage3.questions;
     if (index >= questions.length) { showFinal(); return; }
@@ -203,7 +188,6 @@ const Game = (() => {
 
   // ── FINAL ───────────────────────────────────────────────────
   function showFinal() {
-    Timer.stop();
     const cfg = GAME_CONFIG.finalScreen;
     _showOnly("screen-final");
 
@@ -219,44 +203,40 @@ const Game = (() => {
     requestAnimationFrame(() => {
       _state.finalCancelTyping = Typewriter.type(textEl, cfg.typingText, cfg.typingSpeed || 50);
     });
-    Music.play("final");
   }
 
   // ── WRONG ───────────────────────────────────────────────────
   function showWrong() {
-    Timer.stop(); MapGame.stop(); _hideDialog();
+    MapGame.stop();
+    _hideDialog();
     _showOnly("screen-wrong");
     const x = $("wrong-x");
     x.classList.remove("animate");
     void x.offsetWidth;
     x.classList.add("animate");
-    Music.stop();
   }
 
   // ── BIND EVENTS ─────────────────────────────────────────────
-function _bind() {
-  // Desbloquea audio en el primer click del usuario
- 
-  $("btn-start").addEventListener("click", showStage1);
-  $("s1-back").addEventListener("click", showHome);
-  $("s1-continue").addEventListener("click", showStage2);
-  $("s2-back").addEventListener("click", () => { MapGame.stop(); showHome(); });
-  $("dialog-continue").addEventListener("click", () => {
-    _hideDialog();
-    MapGame.resumeAfterGoal1();
-  });
-  $("goal-back").addEventListener("click", showHome);
-  $("goal-continue").addEventListener("click", () => showStage3(0));
-  $("s3-btn-a").addEventListener("click", () => _handleAnswer("A"));
-  $("s3-btn-b").addEventListener("click", () => _handleAnswer("B"));
-  $("s3-back").addEventListener("click", () => { Timer.stop(); showHome(); });
-  $("final-back").addEventListener("click", showHome);
-  $("wrong-back").addEventListener("click", showHome);
-}
+  function _bind() {
+    $("btn-start").addEventListener("click", showStage1);
+    $("s1-back").addEventListener("click", showHome);
+    $("s1-continue").addEventListener("click", showStage2);
+    $("s2-back").addEventListener("click", () => { MapGame.stop(); showHome(); });
+    $("dialog-continue").addEventListener("click", () => {
+      _hideDialog();
+      MapGame.resumeAfterGoal1();
+    });
+    $("goal-back").addEventListener("click", showHome);
+    $("goal-continue").addEventListener("click", () => showStage3(0));
+    $("s3-btn-a").addEventListener("click", () => _handleAnswer("A"));
+    $("s3-btn-b").addEventListener("click", () => _handleAnswer("B"));
+    $("s3-back").addEventListener("click", showHome);
+    $("final-back").addEventListener("click", showHome);
+    $("wrong-back").addEventListener("click", showHome);
+  }
 
   // ── INIT ────────────────────────────────────────────────────
   function init() {
-
     _bind();
     showHome();
   }

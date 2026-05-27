@@ -158,8 +158,18 @@ const Game = (() => {
     textEl.classList.remove("typing-done", "typing-active");
     $("s3-options").style.display = "none";
 
-    $("s3-btn-a").querySelector(".btn-label").textContent = q.optionA;
-    $("s3-btn-b").querySelector(".btn-label").textContent = q.optionB;
+    function _setButtonLabel(btn, text) {
+      const label = btn.querySelector(".btn-label");
+      const parts = text.split("\n").map(s => s.trim()).filter(Boolean);
+      if (parts.length >= 2) {
+        label.innerHTML = '<span class="btn-opt-hanzi">' + parts[0] + '</span>' +
+          '<span class="btn-opt-pinyin">' + parts[1] + '</span>';
+      } else {
+        label.textContent = text;
+      }
+    }
+    _setButtonLabel($("s3-btn-a"), q.optionA);
+    _setButtonLabel($("s3-btn-b"), q.optionB);
     $("s3-btn-a").dataset.answer = "A";
     $("s3-btn-b").dataset.answer = "B";
 
@@ -182,7 +192,9 @@ const Game = (() => {
         showStage3(_state.trivia.index + 1);
       });
     } else {
-      showWrong();
+      $("s3-btn-a").disabled = true;
+      $("s3-btn-b").disabled = true;
+      showWrong(_state.trivia.index);
     }
   }
 
@@ -205,15 +217,41 @@ const Game = (() => {
     });
   }
 
-  // ── WRONG ───────────────────────────────────────────────────
-  function showWrong() {
-    MapGame.stop();
-    _hideDialog();
-    _showOnly("screen-wrong");
+  // ── WRONG POPUP ─────────────────────────────────────────────
+  const GENERIC_WRONG = {
+    hanzi:  "再想一想！",
+    pinyin: "Zài xiǎng yīxiǎng!",
+  };
+
+  function _showWrongPopup(questionIndex) {
+    const questions = GAME_CONFIG.stage3.questions;
+    const q = questions[questionIndex];
+    const msg = (q && q.wrongMessage) ? q.wrongMessage : GENERIC_WRONG;
+
+    const msgEl = $("wrong-custom-msg");
+    msgEl.innerHTML =
+      `<span class="wrong-msg-hanzi">${msg.hanzi}</span>` +
+      `<span class="wrong-msg-pinyin">${msg.pinyin}</span>`;
+
+    const popup = $("wrong-popup");
+    popup.classList.add("active");
+    popup.setAttribute("aria-hidden", "false");
+
     const x = $("wrong-x");
     x.classList.remove("animate");
     void x.offsetWidth;
     x.classList.add("animate");
+  }
+
+  function _hideWrongPopup() {
+    const popup = $("wrong-popup");
+    if (!popup) return;
+    popup.classList.remove("active");
+    popup.setAttribute("aria-hidden", "true");
+  }
+
+  function showWrong(questionIndex) {
+    _showWrongPopup(questionIndex);
   }
 
   // ── BIND EVENTS ─────────────────────────────────────────────
@@ -232,7 +270,18 @@ const Game = (() => {
     $("s3-btn-b").addEventListener("click", () => _handleAnswer("B"));
     $("s3-back").addEventListener("click", showHome);
     $("final-back").addEventListener("click", showHome);
-    $("wrong-back").addEventListener("click", showHome);
+    $("wrong-back").addEventListener("click", () => {
+      _hideWrongPopup();
+      $("s3-btn-a").disabled = false;
+      $("s3-btn-b").disabled = false;
+      showHome();
+    });
+    $("wrong-retry").addEventListener("click", () => {
+      _hideWrongPopup();
+      $("s3-btn-a").disabled = false;
+      $("s3-btn-b").disabled = false;
+      showStage3(_state.trivia.index);
+    });
   }
 
   // ── INIT ────────────────────────────────────────────────────

@@ -26,19 +26,19 @@ const GAME_CONFIG = {
 可是，她現在很不舒服，頭痛得非常厲害，也發燒了 。
 Kěshì, tā xiànzài hěn bù shūfú, tóu tòng de fēicháng lìhài, yě fāshāo le. 
 
-因為她生病了，所以她把火車票弄丟了，也沒辦法給房東付房租 。
-Yīnwèi tā shēngbìng le, suǒyǐ tā bǎ huǒchēpiào nòngdiū le, yě méi bànfǎ gěi fángdōng fù fángzū.
+因為她生病了，所以她把火車票弄丟了，也沒辦法給房東房租 。
+Yīnwèi tā shēngbìng le, suǒyǐ tā bǎ huǒchēpiào nòngdiū le, yě méi bànfǎ gěi fángdōng fángzū.
 
 我是她的哥哥 ，我應該幫助她。
 Wǒ shì tā de gēge, wǒ yīnggāi bāngzhù tā. 
 
-我先在臺北幫她付房間的房租 ，再到藥局去幫她買藥 。
-Wǒ xiān zài Táiběi bāng tā fù fángjiān de fángzū , zài dào yàojú qù bāng tā mǎi yào. 
+我先在臺北幫她付房租 ，再到藥局去幫她買藥 。
+Wǒ xiān zài Táiběi bāng tā fù fángzū , zài dào yàojú qù bāng tā mǎi yào. 
 
-然後，我要坐火車到花蓮去接她 ，帶她平平安安地回臺北來 。
-Ránhòu, wǒ yào zuò huǒchē dào Huālián qù jiē tā , dài tā píngpíng-ān'ān de huí Táiběi lái.
+然後，我要坐火車到花蓮去接她 ，再把她帶回台北
+Ránhòu, wǒ yào zuò huǒchē dào Huālián qù jiē tā , zai bǎ tā dài huí Táiběi.
 
-加油！(Jiā yóu！) 出發吧！`,
+加油！(Jiā yóu！) 出發吧！ chufā ba！`,
     typingSpeed: 100,
   },
 
@@ -47,10 +47,10 @@ Ránhòu, wǒ yào zuò huǒchē dào Huālián qù jiē tā , dài tā píngpí
   // ─────────────────────────────────────────────
   stage2: {
     mapImage:       "assets/videos/mapa-animado.mp4", 
-    characterImage: "assets/images/character.svg",
+    characterImage: "assets/images/character.png",  // ← cambia a tu PNG aquí
 
     // Posición inicial — círculo START (video 1280×720)
-    characterStartX: 422,
+    characterStartX: 522,
     characterStartY: 626,
     characterSpeed:  6,
 
@@ -59,14 +59,15 @@ Ránhòu, wǒ yào zuò huǒchē dào Huālián qù jiē tā , dài tā píngpí
 
     // ── Diálogo del 房東 (edita libremente) ─────
     landlordDialog: {
-      text: `熱水騎器壞了！
-Rèshuǐqì huài le！
+      text: 
+          `熱水器壞了！
+          Rèshuǐqì huài le！
 
-明天我會來修。
-Míngtiān wǒ huì lái xiū。
+          明天我會來修。
+          Míngtiān wǒ huì lái xiū。
 
-藥局在右上角！
-Yàojú zài yòu shàngjiǎo！`,
+          藥局在右上角！
+          Yàojú zài yòu shàngjiǎo！`,
       continueLabel:  "繼續",
       continuePinyin: "Jìxù",
     },
@@ -85,8 +86,8 @@ Yàojú zài yòu shàngjiǎo！`,
   //    imageAlt     → texto alternativo
   //    typingText   → texto que se tipea (hanzi, pinyin, lo que quieras)
   //    typingSpeed  → ms por caracter (30=rápido, 60=lento)
-  //    optionA      → texto del botón A (甲)
-  //    optionB      → texto del botón B (乙)
+  //    optionA      → texto del botón A (A)
+  //    optionB      → texto del botón B (B)
   //    correctAnswer→ "A" o "B"
   //
   //  Ejemplo de pregunta extra:
@@ -105,36 +106,59 @@ Yàojú zài yòu shàngjiǎo！`,
       {
         image:         "assets/images/stage3-question1.png",
         imageAlt:      "問題一",
-        typingText:    `你妹妹哪裡不舒服？她哪裡痛？\nNǐ mèimei nǎlǐ bù shūfú？ Tā nǎlǐ tòng？\n`,
+        typingText:    `你妹妹哪裡不舒服？\nNǐ mèimei nǎlǐ bù shūfú？ \n`,
         typingSpeed:   45,
-        optionA:       "頭痛  tóu tòng",
-        optionB:       "肚子痛  dùzi tòng",
+        optionA:       "頭痛\n  tóu tòng",
+        optionB:       "肚子痛\n  dùzi tòng",
         correctAnswer: "A",
+        // wrongMessage: no se define → usa mensaje genérico
       },
       {
         image:         "assets/images/stage3-question2.png",
         imageAlt:      "問題二",
-        typingText:    `她還有什麼生病的症狀？\nTā hái yǒu shéme shēngbìng de zhèngzhuàng？\n`,
+        typingText:    `她還有什麼症狀？\nTā hái yǒu de zhèngzhuàng？\n`,
         typingSpeed:   45,
-        optionA:       "流鼻水  liú bíshuǐ",
-        optionB:       "發燒  fāshāo",
+        optionA:       "流鼻水\n  liú bíshuǐ",
+        optionB:       "發燒\n  fāshāo",
         correctAnswer: "B",
+        // wrongMessage: no se define → usa mensaje genérico
       },
       {
         image:         "assets/images/stage3-question3.png",
         imageAlt:      "問題三",
-        typingText:    `我建議她多喝水，每八個鐘頭吃這個藥。\nWǒ jiànyì tā duō hē shuǐ, měi bā ge zhōngtóu chī zhège yào.\n
-        為了保護喉嚨，只能吃流質食物。
-        Wèile bǎohù hóulóng, zhǐ chī liúzhì shíwù.\n
-
-        Duìle, nǐ yào zěnme qù Huālián？\n
-        對了，你要怎麼去花蓮？\n`,
-
-        
+        typingText:    `對了，你要怎麼去花蓮？\nDuìle, nǐ yào zěnme qù Huālián？\n`,
         typingSpeed:   45,
-        optionA:       "坐火車  zuò huǒchē",
-        optionB:       "坐高鐵  zuò gāotiě",
-        correctAnswer: "A", 
+        optionA:       "坐火車\n  zuò huǒchē",
+        optionB:       "坐高鐵\n  zuò gāotiě",
+        correctAnswer: "A",
+        wrongMessage: {
+          hanzi:  "東部沒有高鐵！因為有地震，所以台灣東部不能蓋高鐵。",
+          pinyin: "Dōngbù méiyǒu gāotiě! Yīnwèi yǒu dìzhèn, suǒyǐ Táiwān dōngbù bùnéng gài gāotiě.",
+        },
+      },
+      {
+        image:         "assets/images/stage3-question4.png",
+        imageAlt:      "問題四",
+        typingText:    `地圖上的便利商店叫什麼名字？\nDìtú shàng de biànlì shāngdiàn jiào shénme míngzì？\n`,
+        typingSpeed:   45,
+        optionA:       "萊爾富\n Hi-Life  ",
+        optionB:       "全聯\n PX Mart  ",
+        correctAnswer: "A",
+        wrongMessage: {
+          hanzi:  "不對！你知道嗎？台灣有非常多便利商店！",
+          pinyin: "Bù duì! Nǐ zhīdào ma? Táiwān yǒu fēicháng duō biànlì shāngdiàn!",
+        },
+      },
+      {
+        image:         "assets/images/stage3-question5.png",
+        imageAlt:      "問題五",
+        typingText:    `去花蓮要小心！夏天常常有颱風。 颱風是什麼時候？\n
+                        Qù Huālián yào xiǎoxīn! Xiàtiān chángcháng yǒu táifēng. Táifēng shì shénme shíhòu?\n`,
+        typingSpeed:   45,
+        optionA:       "夏天\n  Xiàtiān",
+        optionB:       "秋天\n  Qiūtiān",
+        correctAnswer: "A",
+        // wrongMessage: no se define → usa mensaje genérico
       },
       // ← AGREGA MÁS PREGUNTAS AQUÍ (copia el bloque de arriba)
     ],

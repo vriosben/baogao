@@ -124,11 +124,11 @@
         <div id="s3-text" class="s3-text-box" role="log" aria-live="polite"></div>
         <div id="s3-options" class="s3-options" style="display:none">
           <button id="s3-btn-a" class="btn-pixel btn-blue" data-answer="A">
-            <span class="btn-key">甲</span>
+            <span class="btn-key">A</span>
             <span class="btn-label">選項 A</span>
           </button>
           <button id="s3-btn-b" class="btn-pixel btn-red" data-answer="B">
-            <span class="btn-key">乙</span>
+            <span class="btn-key">B</span>
             <span class="btn-label">選項 B</span>
           </button>
         </div>
@@ -157,21 +157,26 @@
 
 
   <!-- ════════════════════════════════
-       WRONG — 錯誤
+       WRONG POPUP OVERLAY — 不對！
        ════════════════════════════════ -->
-  <section id="screen-wrong" class="screen" aria-label="錯誤" aria-hidden="true">
-    <div class="wrong-box">
+  <div id="wrong-popup" class="wrong-popup-overlay" aria-hidden="true" role="alertdialog" aria-modal="true">
+    <div class="wrong-popup-box">
       <span id="wrong-x" aria-hidden="true">✗</span>
-      <h2 class="wrong-title">錯誤！</h2>
-      <p class="wrong-title-pinyin">Cuòwù！</p>
-      <p class="wrong-subtitle">再試一次</p>
-      <p class="wrong-subtitle-pinyin">Zài shì yī cì</p>
-      <button id="wrong-back" class="btn-pixel btn-red">
-        <span class="btn-hanzi">🏠 返回主選單</span>
-        <span class="btn-pinyin">Fǎnhuí zhǔ xuǎndān</span>
-      </button>
+      <h2 class="wrong-title">不對！</h2>
+      <p class="wrong-title-pinyin">Bù duì！</p>
+      <p id="wrong-custom-msg" class="wrong-custom-msg"></p>
+      <div class="wrong-popup-actions">
+        <button id="wrong-retry" class="btn-pixel btn-gold wrong-retry-btn">
+          <span class="btn-hanzi">🔄 再試一次</span>
+          <span class="btn-pinyin">Zài shì yī cì</span>
+        </button>
+        <button id="wrong-back" class="btn-pixel btn-dark">
+          <span class="btn-hanzi">🏠 返回主選單</span>
+          <span class="btn-pinyin">Fǎnhuí zhǔ xuǎndān</span>
+        </button>
+      </div>
     </div>
-  </section>
+  </div>
 
 
   <!-- ════════════════════════════════
@@ -208,13 +213,13 @@
 
 
   <!-- ════════════════════════════════
-       CORRECT ANSWER POPUP — 對！正確
+       CORRECT ANSWER POPUP — 對啊！正確
        ════════════════════════════════ -->
   <div id="correct-popup" class="correct-popup" aria-hidden="true" aria-live="assertive">
     <div class="correct-popup-inner">
       <div class="correct-star-row" aria-hidden="true">★ ★ ★</div>
-      <div class="correct-main">對！</div>
-      <div class="correct-pinyin">Duì！</div>
+      <div class="correct-main">對啊！</div>
+      <div class="correct-pinyin">Duìa！</div>
       <div class="correct-sub">正確  Zhèngquè</div>
     </div>
   </div>

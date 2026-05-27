@@ -39,7 +39,7 @@ Wǒ xiān zài Táiběi bāng tā fù fángjiān de fángzū , zài dào yàojú
 Ránhòu, wǒ yào zuò huǒchē dào Huālián qù jiē tā , dài tā píngpíng-ān'ān de huí Táiběi lái.
 
 加油！(Jiā yóu！) 出發吧！`,
-    typingSpeed: 10,
+    typingSpeed: 100,
   },
 
   // ─────────────────────────────────────────────
@@ -59,8 +59,8 @@ Ránhòu, wǒ yào zuò huǒchē dào Huālián qù jiē tā , dài tā píngpí
 
     // ── Diálogo del 房東 (edita libremente) ─────
     landlordDialog: {
-      text: `熱水器壞了！
-Rèshuǐ huài le！
+      text: `熱水騎器壞了！
+Rèshuǐqì huài le！
 
 明天我會來修。
 Míngtiān wǒ huì lái xiū。
@@ -123,7 +123,14 @@ Yàojú zài yòu shàngjiǎo！`,
       {
         image:         "assets/images/stage3-question3.png",
         imageAlt:      "問題三",
-        typingText:    `我建議她多喝水，每八個鐘頭吃這個藥。為了保護喉嚨，只能吃流質食物。對了，你要怎麼去花蓮？\nWǒ jiànyì tā duō hē shuǐ, měi bā ge zhōngtóu chī zhège yào. Wèile bǎohù hóulóng, zhǐ chī liúzhì shíwù. Duìle, nǐ yào zěnme qù Huālián？\n`,
+        typingText:    `我建議她多喝水，每八個鐘頭吃這個藥。\nWǒ jiànyì tā duō hē shuǐ, měi bā ge zhōngtóu chī zhège yào.\n
+        為了保護喉嚨，只能吃流質食物。
+        Wèile bǎohù hóulóng, zhǐ chī liúzhì shíwù.\n
+
+        Duìle, nǐ yào zěnme qù Huālián？\n
+        對了，你要怎麼去花蓮？\n`,
+
+        
         typingSpeed:   45,
         optionA:       "坐火車  zuò huǒchē",
         optionB:       "坐高鐵  zuò gāotiě",
@@ -140,7 +147,7 @@ Yàojú zài yòu shàngjiǎo！`,
     image:       "assets/images/congratulations.png",
     imageAlt:    "恭喜",
     typingText:  `恭喜！(Gōngxǐ!)\n\n你已經準備好去接妹妹了！快一點！\nNǐ yǐjīng zhǔnbèi hǎo qù jiē mèimei le! Kuài yìdiǎn!\n\n這樣妹妹才能早點好。\nZhèyàng mèimei cáinéng zǎodiǎn hǎo.`,
-    typingSpeed: 50,
+    typingSpeed: 70,
   },
 };
 

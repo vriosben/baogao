@@ -17,7 +17,7 @@ const GAME_CONFIG = {
   //  第一關 STAGE 1 — Imagen + texto tipeado
   // ─────────────────────────────────────────────
   stage1: {
-    image:    "/Users/valm4/Documents/baogao/assets/images/stage1-room.png",  
+    image:    "assets/images/stage1-room.png",  
     imageAlt: "第一關場景",
     typingText: 
     `妹妹放假到花蓮去玩 。 

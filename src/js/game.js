@@ -16,6 +16,7 @@ const Game = (() => {
 
   const $ = id => document.getElementById(id);
 
+
   // ── Screen switcher ─────────────────────────────────────────
   function _showOnly(id) {
     document.querySelectorAll(".screen").forEach(s => {
@@ -43,6 +44,7 @@ const Game = (() => {
     _hideCorrectPopup();
     _state.trivia.index = 0;
     _showOnly("screen-home");
+
   }
 
   // ── STAGE 1 — SIN temporizador ──────────────────────────────
@@ -93,6 +95,7 @@ const Game = (() => {
     } else {
       mapVideo.onloadeddata = () => MapGame.start();
     }
+    Music.play("map");
   }
 
   // ── LANDLORD REACHED — show dialog ──────────────────────────
@@ -128,7 +131,6 @@ const Game = (() => {
     MapGame.stop();
     Timer.stop();
     _showOnly("screen-goal");
-    $("goal-timer").textContent = Timer.getFormatted();
   }
 
   // ── CORRECT POPUP ────────────────────────────────────────────
@@ -217,6 +219,7 @@ const Game = (() => {
     requestAnimationFrame(() => {
       _state.finalCancelTyping = Typewriter.type(textEl, cfg.typingText, cfg.typingSpeed || 50);
     });
+    Music.play("final");
   }
 
   // ── WRONG ───────────────────────────────────────────────────
@@ -227,35 +230,33 @@ const Game = (() => {
     x.classList.remove("animate");
     void x.offsetWidth;
     x.classList.add("animate");
+    Music.stop();
   }
 
   // ── BIND EVENTS ─────────────────────────────────────────────
-  function _bind() {
-    $("btn-start").addEventListener("click", showStage1);
-
-    $("s1-back").addEventListener("click", showHome);
-    $("s1-continue").addEventListener("click", showStage2);
-
-    $("s2-back").addEventListener("click", () => { MapGame.stop(); showHome(); });
-
-    $("dialog-continue").addEventListener("click", () => {
-      _hideDialog();
-      MapGame.resumeAfterGoal1();
-    });
-
-    $("goal-back").addEventListener("click", showHome);
-    $("goal-continue").addEventListener("click", () => showStage3(0));
-
-    $("s3-btn-a").addEventListener("click", () => _handleAnswer("A"));
-    $("s3-btn-b").addEventListener("click", () => _handleAnswer("B"));
-    $("s3-back").addEventListener("click", () => { Timer.stop(); showHome(); });
-
-    $("final-back").addEventListener("click", showHome);
-    $("wrong-back").addEventListener("click", showHome);
-  }
+function _bind() {
+  // Desbloquea audio en el primer click del usuario
+ 
+  $("btn-start").addEventListener("click", showStage1);
+  $("s1-back").addEventListener("click", showHome);
+  $("s1-continue").addEventListener("click", showStage2);
+  $("s2-back").addEventListener("click", () => { MapGame.stop(); showHome(); });
+  $("dialog-continue").addEventListener("click", () => {
+    _hideDialog();
+    MapGame.resumeAfterGoal1();
+  });
+  $("goal-back").addEventListener("click", showHome);
+  $("goal-continue").addEventListener("click", () => showStage3(0));
+  $("s3-btn-a").addEventListener("click", () => _handleAnswer("A"));
+  $("s3-btn-b").addEventListener("click", () => _handleAnswer("B"));
+  $("s3-back").addEventListener("click", () => { Timer.stop(); showHome(); });
+  $("final-back").addEventListener("click", showHome);
+  $("wrong-back").addEventListener("click", showHome);
+}
 
   // ── INIT ────────────────────────────────────────────────────
   function init() {
+
     _bind();
     showHome();
   }

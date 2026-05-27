@@ -25,6 +25,7 @@ const Timer = (() => {
     _started = false;
     // Render initial state
     _onTick(_format(_seconds), _seconds);
+
   }
 
   function start() {
